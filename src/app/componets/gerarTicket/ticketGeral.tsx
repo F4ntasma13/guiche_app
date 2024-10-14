@@ -4,50 +4,67 @@ import { useState } from "react";
 import React from "react";
 
 const TicketGeral = () => {
-    const [contadorG, setContadorG] = useState(0)
-    const [contadorP, setContadorP] = useState(0)
-    const [contadorI, setContadorI] = useState(0)
     const [tickets, setTickets] = useState<string[]>([]);
-    const [guiche1, setGuiche1] = useState<string | null>(null);
-    const [guiche2, setGuiche2] = useState<string | null>(null);
-    const [guiche3, setGuiche3] = useState<string | null>(null);
+    const [guiche1, setGuiche1] = useState<string>('');
+    const [guiche2, setGuiche2] = useState<string>('');
+    const [guiche3, setGuiche3] = useState<string>('');
     const [atendimentosFinalizados, setAtendimentosFinalizados] = useState<string[]>([]);
-    const [emAtendimento1, setEmAtendimento1] = useState(false);
-    const [emAtendimento2, setEmAtendimento2] = useState(false);
-    const [emAtendimento3, setEmAtendimento3] = useState(false);
+ 
 
     const ticketGeral = () => {
-        const novoTicket = `GR00${contadorG + 1}`;
-        setTickets((prevTickets) => [...prevTickets, novoTicket]);
-        setContadorG(contadorG + 1);
+        const contador = tickets.filter(ticket => ticket[0] === "G")
+        const novoTicket = `GR00${contador.length + 1}`;
+        setTickets([...tickets, novoTicket]);
       };
 
     const ticketPreferencia = () => {
-        const novoTicket = `PR00${contadorP + 1}`;
-        setTickets((prevTickets) => [...prevTickets, novoTicket]);
-        setContadorP(contadorP + 1);
+        const contador = tickets.filter(ticket => ticket[0] === "P")
+        const novoTicket = `PR00${contador.length + 1}`;
+        setTickets([...tickets, novoTicket]);
     };
 
     const ticketIdoso = () => {
-        const novoTicket = `ID00${contadorI + 1}`;
-        setTickets((prevTickets) => [...prevTickets, novoTicket]);
-        setContadorI(contadorI + 1);
+        const contador = tickets.filter(ticket => ticket[0] === "I")
+        const novoTicket = `ID00${contador.length + 1}`;
+        setTickets([...tickets, novoTicket]);
     };
-
-    const atenderGuiche = (guicheSetter: React.Dispatch<React.SetStateAction<string | null>>, setAtendimento: React.Dispatch<React.SetStateAction<boolean>>) => {
-        if (tickets.length > 0) {
-          const proximoTicket = tickets[0];
-          guicheSetter(proximoTicket);
-          setTickets((prevTickets) => prevTickets.slice(1));
-          setAtendimento(true);
+    const preference = () => {
+        const filteredId = tickets.find(ticket => ticket.includes("ID"));
+        const filteredPr = tickets.find(ticket => ticket.includes("PR"));
+        const filteredGr = tickets.find(ticket => ticket.includes("GR"));
+        if (filteredId) {
+            return filteredId;
+        } else if (filteredPr) {
+            return filteredPr;
+        } else if (filteredGr) {
+            return filteredGr;
+        }
+    };
+    
+    const atenderGuiche = (guicheNumber: number) => {
+        const proximoTicket = preference();
+        if (proximoTicket) {
+          if(guicheNumber === 1) {
+            setGuiche1(proximoTicket)
+          } else if (guicheNumber === 2) {
+            setGuiche2(proximoTicket)
+          } else {
+            setGuiche3(proximoTicket)
+          }
+          setTickets(tickets.filter(ticket => ticket !== proximoTicket));
         }
     };
 
-    const finalizarGuiche = (guiche: string | null, guicheSetter: React.Dispatch<React.SetStateAction<string | null>>, setAtendimento: React.Dispatch<React.SetStateAction<boolean>>) => {
-        if (guiche) {
-            setAtendimentosFinalizados((prev) => [...prev, guiche]);
-            guicheSetter(null);
-            setAtendimento(false);
+    const finalizarGuiche = (guicheNumber: number) => {
+        if (guicheNumber === 1) {
+            setAtendimentosFinalizados((prev) => [...prev, guiche1]);
+            setGuiche1('');
+        } else if (guicheNumber === 2) {
+            setAtendimentosFinalizados((prev) => [...prev, guiche2]);
+            setGuiche2(''); 
+        } else {
+            setAtendimentosFinalizados((prev) => [...prev, guiche3]);
+            setGuiche3(''); 
         }
     };
 
@@ -75,10 +92,13 @@ const TicketGeral = () => {
                     <div className="bg-white shadow-md p-4 rounded-lg text-center border border-teal-200">
                         <h2 className="text-teal-700 text-xl mb-4">Guichê 1:</h2>
                         <div className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
-                            <button onClick={() => emAtendimento1 
-                                ? finalizarGuiche(guiche1, setGuiche1, setEmAtendimento1) 
-                                : atenderGuiche(setGuiche1, setEmAtendimento1)}>
-                                {emAtendimento1 ? "Finalizar" : "Atender"}
+                            <button onClick={() => guiche1 
+                                ? finalizarGuiche(1) 
+                                : atenderGuiche(1)}
+                                disabled={tickets.length === 0}
+                                className={tickets.length === 0 ? "opacity-50 cursor-not-allowed" : "active" }
+                                >
+                                {guiche1 ? "Finalizar" : "Atender"}
                             </button>
                         </div>
                         <div>{guiche1 ? <p>{guiche1}</p> : <p>Aguardando...</p>}</div>
@@ -87,10 +107,10 @@ const TicketGeral = () => {
                     <div className="bg-white shadow-md p-4 rounded-lg text-center border border-teal-200">
                         <h2 className="text-teal-700 text-xl mb-4">Guichê 2:</h2>
                         <div className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
-                            <button onClick={() => emAtendimento2 
-                                ? finalizarGuiche(guiche2, setGuiche2, setEmAtendimento2) 
-                                : atenderGuiche(setGuiche2, setEmAtendimento2)}>
-                                {emAtendimento2 ? "Finalizar" : "Atender"}
+                            <button onClick={() => guiche2 
+                                ? finalizarGuiche(2) 
+                                : atenderGuiche(2)}>
+                                {guiche2 ? "Finalizar" : "Atender"}
                             </button>
                         </div>
                         <div>{guiche2 ? <p>{guiche2}</p> : <p>Aguardando...</p>}</div>
@@ -99,10 +119,10 @@ const TicketGeral = () => {
                     <div className="bg-white shadow-md p-4 rounded-lg text-center border border-teal-200">
                         <h2 className="text-teal-700 text-xl mb-4">Guichê 3:</h2>
                         <div className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
-                            <button onClick={() => emAtendimento3 
-                                ? finalizarGuiche(guiche3, setGuiche3, setEmAtendimento3) 
-                                : atenderGuiche(setGuiche3, setEmAtendimento3)}>
-                                {emAtendimento3 ? "Finalizar" : "Atender"}
+                            <button onClick={() => guiche3 
+                                ? finalizarGuiche(3) 
+                                : atenderGuiche(3)}>
+                                {guiche3 ? "Finalizar" : "Atender"}
                             </button>
                         </div>
                         <div>{guiche3 ? <p>{guiche3}</p> : <p>Aguardando...</p>}</div>
