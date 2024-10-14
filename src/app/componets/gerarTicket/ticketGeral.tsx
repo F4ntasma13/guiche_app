@@ -16,18 +16,17 @@ const TicketGeral = () => {
         const novoTicket = `GR00${contador.length + 1}`;
         setTickets([...tickets, novoTicket]);
       };
-
     const ticketPreferencia = () => {
         const contador = tickets.filter(ticket => ticket[0] === "P")
         const novoTicket = `PR00${contador.length + 1}`;
         setTickets([...tickets, novoTicket]);
     };
-
     const ticketIdoso = () => {
         const contador = tickets.filter(ticket => ticket[0] === "I")
         const novoTicket = `ID00${contador.length + 1}`;
         setTickets([...tickets, novoTicket]);
     };
+
     const preference = () => {
         const filteredId = tickets.find(ticket => ticket.includes("ID"));
         const filteredPr = tickets.find(ticket => ticket.includes("PR"));
@@ -39,8 +38,8 @@ const TicketGeral = () => {
         } else if (filteredGr) {
             return filteredGr;
         }
-    };
-    
+    };   
+     
     const atenderGuiche = (guicheNumber: number) => {
         const proximoTicket = preference();
         if (proximoTicket) {
@@ -70,24 +69,24 @@ const TicketGeral = () => {
 
     return (
         <>
-            <div className="min-h-screen bg-cyan-100 font-sans flex">
-                <div className="w-1/3 p-4">
-                    <h3 className="text-teal-700 text-xl mb-4">Tickets</h3>
-                    <div className="space-y-4">
-                        <div className="bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">
+            <div className="min-h-screen bg-cyan-100 font-sans flex flex col">
+                <div className="w-1/3 p-4 bg-white rounded-lg border border-teal-200">
+                    <h3 className="text-teal-700 text-xl mb-4 text-center">Aguardando atendimento</h3>
+                    <div className=" flex space-x-12 rounded-lg text-center p-4">
+                        <div className="bg-green-600 text-white py-2 px-8 rounded hover:bg-green-700 transition">
                             <button onClick={ticketGeral}>Geral</button>
                         </div>
-                        <div className="bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">
+                        <div className="bg-green-600 text-white py-2 px-8 rounded hover:bg-green-700 transition">
                             <button onClick={ticketIdoso}>Idoso</button>
                         </div>
-                        <div className="bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">
+                        <div className="bg-green-600 text-white py-2 px-8 rounded hover:bg-green-700 transition">
                             <button onClick={ticketPreferencia}>Preferência</button>
                         </div>
                     </div>
                     <GerarTicket ticketArray={tickets} />
                 </div>
 
-                <div className="w-2/3 flex space-x-8 p-4">
+                <div className="w-2/3 flex space-x-4 p-4">
 
                     <div className="bg-white shadow-md p-4 rounded-lg text-center border border-teal-200">
                         <h2 className="text-teal-700 text-xl mb-4">Guichê 1:</h2>
@@ -95,8 +94,8 @@ const TicketGeral = () => {
                             <button onClick={() => guiche1 
                                 ? finalizarGuiche(1) 
                                 : atenderGuiche(1)}
-                                disabled={tickets.length === 0}
-                                className={tickets.length === 0 ? "opacity-50 cursor-not-allowed" : "active" }
+                                disabled={tickets.length === 0 && !guiche1}
+                                className={tickets.length === 0  && !guiche1 ? "opacity-50 cursor-not-allowed" : "active" }
                                 >
                                 {guiche1 ? "Finalizar" : "Atender"}
                             </button>
@@ -109,7 +108,10 @@ const TicketGeral = () => {
                         <div className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
                             <button onClick={() => guiche2 
                                 ? finalizarGuiche(2) 
-                                : atenderGuiche(2)}>
+                                : atenderGuiche(2)}
+                                disabled={tickets.length === 0 && !guiche2}
+                                className={tickets.length === 0  && !guiche2 ? "opacity-50 cursor-not-allowed" : "active" }
+                                >
                                 {guiche2 ? "Finalizar" : "Atender"}
                             </button>
                         </div>
@@ -121,7 +123,10 @@ const TicketGeral = () => {
                         <div className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
                             <button onClick={() => guiche3 
                                 ? finalizarGuiche(3) 
-                                : atenderGuiche(3)}>
+                                : atenderGuiche(3)}
+                                disabled={tickets.length === 0 && !guiche3}
+                                className={tickets.length === 0  && !guiche3 ? "opacity-50 cursor-not-allowed" : "active" }
+                                >
                                 {guiche3 ? "Finalizar" : "Atender"}
                             </button>
                         </div>
