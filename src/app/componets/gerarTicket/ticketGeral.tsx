@@ -12,18 +12,30 @@ const TicketGeral = () => {
  
 
     const ticketGeral = () => {
-        const contador = tickets.filter(ticket => ticket[0] === "G")
-        const novoTicket = `GR00${contador.length + 1}`;
-        setTickets([...tickets, novoTicket]);
-      };
-    const ticketPreferencia = () => {
-        const contador = tickets.filter(ticket => ticket[0] === "P")
-        const novoTicket = `PR00${contador.length + 1}`;
+        const atendimentoGeral = tickets.filter(ticket => ticket[0] === "G");    
+        const atendidosGeral = atendimentosFinalizados.filter(ticket => ticket[0] === "G");
+        const guiches = [guiche1, guiche2, guiche3].filter(ticket => ticket[0] === "G");
+        const todosOsTicketsGeral = atendimentoGeral.concat(atendidosGeral, guiches);
+
+        const novoTicket = `GR00${todosOsTicketsGeral.length + 1}`;
         setTickets([...tickets, novoTicket]);
     };
+    const ticketPreferencia = () => {
+        const atendimentoPreferencial = tickets.filter(ticket => ticket[0] === "P");
+        const atendidosPreferencial = atendimentosFinalizados.filter(ticket => ticket[0] === "P");
+        const guiches = [guiche1, guiche2, guiche3].filter(ticket => ticket[0] === "P");
+        const todosOsTicketsPrefencial = atendimentoPreferencial.concat(atendidosPreferencial, guiches);
+    
+        const novoTicket = `PR00${todosOsTicketsPrefencial.length + 1}`;
+        setTickets([...tickets, novoTicket]);        
+    };
     const ticketIdoso = () => {
-        const contador = tickets.filter(ticket => ticket[0] === "I")
-        const novoTicket = `ID00${contador.length + 1}`;
+        const atendimentoIdoso = tickets.filter(ticket => ticket[0] === "I");
+        const atendidosIdoso = atendimentosFinalizados.filter(ticket => ticket[0] === "I");
+        const guiches = [guiche1, guiche2, guiche3].filter(ticket => ticket[0] === "I");
+        const todosOsTicketsIdoso = atendimentoIdoso.concat(atendidosIdoso, guiches)
+
+        const novoTicket = `ID00${todosOsTicketsIdoso.length + 1}`;
         setTickets([...tickets, novoTicket]);
     };
 
@@ -100,7 +112,9 @@ const TicketGeral = () => {
                                 {guiche1 ? "Finalizar" : "Atender"}
                             </button>
                         </div>
-                        <div>{guiche1 ? <p>{guiche1}</p> : <p>Aguardando...</p>}</div>
+                        <div>{guiche1 ? <p className="text-teal-600 relative bg-yellow-100 text-center py-2 px-4 text-md font-semibold text-gray-900 
+                            border border-yellow-300 rounded-lg shadow-md">{guiche1}</p> : <p>Aguardando...</p>}
+                        </div>
                     </div>
 
                     <div className="bg-white shadow-md p-4 rounded-lg text-center border border-teal-200">
@@ -115,7 +129,9 @@ const TicketGeral = () => {
                                 {guiche2 ? "Finalizar" : "Atender"}
                             </button>
                         </div>
-                        <div>{guiche2 ? <p>{guiche2}</p> : <p>Aguardando...</p>}</div>
+                        <div>{guiche2 ? <p className="text-teal-600 relative bg-yellow-100 text-center py-2 px-4 text-md font-semibold text-gray-900 
+                            border border-yellow-300 rounded-lg shadow-md">{guiche2}</p> : <p>Aguardando...</p>}
+                        </div>
                     </div>
 
                     <div className="bg-white shadow-md p-4 rounded-lg text-center border border-teal-200">
@@ -130,7 +146,9 @@ const TicketGeral = () => {
                                 {guiche3 ? "Finalizar" : "Atender"}
                             </button>
                         </div>
-                        <div>{guiche3 ? <p>{guiche3}</p> : <p>Aguardando...</p>}</div>
+                        <div>{guiche3 ? <p className="text-teal-600 relative bg-yellow-100 text-center py-2 px-4 text-md font-semibold text-gray-900 
+                            border border-yellow-300 rounded-lg shadow-md">{guiche3}</p> : <p>Aguardando...</p>}
+                        </div>
                     </div>
 
                 </div>
