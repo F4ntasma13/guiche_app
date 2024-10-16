@@ -81,8 +81,8 @@ const TicketGeral = () => {
 
     return (
         <>
-            <div className="min-h-screen bg-cyan-100 font-sans flex flex col">
-                <div className="w-1/3 p-4 bg-white rounded-lg border border-teal-200">
+            <div className="min-h-24 bg-cyan-100 font-sans flex">
+                <div className="bg-white rounded-lg border border-teal-200">
                     <h3 className="text-teal-700 text-xl mb-4 text-center">Aguardando atendimento</h3>
                     <div className=" flex space-x-12 rounded-lg text-center p-4">
                         <div className="bg-green-600 text-white py-2 px-8 rounded hover:bg-green-700 transition">
@@ -158,7 +158,8 @@ const TicketGeral = () => {
                     {atendimentosFinalizados.length > 0 ? (
                         <ul className="list-disc pl-5">
                             {atendimentosFinalizados.map((ticket, index) => (
-                                <li key={index}>{ticket}</li>
+                                <li className="text-teal-600 relative bg-yellow-100 text-center py-2 px-4 text-md font-semibold text-gray-900 
+                                border border-yellow-300 rounded-lg shadow-md" key={index}>{ticket}</li>
                             ))}
                         </ul>
                     ) : (

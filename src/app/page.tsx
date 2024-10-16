@@ -8,7 +8,7 @@ export default function Home() {
     <div>
       <header className="text-center">
         <h1 className="text-teal-700 text-3xl font-bold mb-6">
-          Sistema de Gerenciamento de Tickets
+          Atendimento Geral
         </h1>
       </header>
       <div>
